@@ -52,6 +52,29 @@ class StanfordLemmatizer {
 	 
 	  return lemmas; 
 	 } 
+	 
+	public String lemmatizeString(String documentText){
+		
+		 StringBuilder stringBuilder = new StringBuilder();
+		 
+		  // create an empty Annotation just with the given text 
+		  Annotation document = new Annotation(documentText); 
+		 
+		  // run all Annotators on this text 
+		  pipeline.annotate(document); 
+		 
+		  // Iterate over all of the sentences found 
+		  List<CoreMap> sentences = document.get(SentencesAnnotation.class); 
+			  for (CoreMap sentence : sentences) { 
+			   // Iterate over all tokens in a sentence 
+			   for (CoreLabel token : sentence.get(TokensAnnotation.class)) { 
+			    // Retrieve and add the lemma for each word into the 
+			    // list of lemmas 
+				  stringBuilder.append(token.toString()+" ");
+			   }  
+		  }
+		return stringBuilder.toString();
+	 }
 	}
 
 public class main {
