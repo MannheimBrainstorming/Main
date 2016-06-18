@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import org.jsoup.Jsoup;
@@ -54,7 +56,7 @@ import java.io.IOException;
 
 
 
-public class Ex {
+public class LemmatizerPreprocessing {
 	
 	/*
 	 *Delete files from 
@@ -76,7 +78,21 @@ public class Ex {
 	private int numberOfPagesToCrawl = 5;
 	private int documentSavedIndex = 0;
 
-	public static void preprocesPhrase(String phrase){
+	public static int StopWordsRemoval(String text) throws IOException{
+		ArrayList<String> StopWordsList = new ArrayList<String>();
+		StopWordsList = (ArrayList<String>) Files.readAllLines(Paths.get("C:\\Users\\hp\\workspace\\TeamProjectBrainStorming\\src\\ex\\stopwordslist.txt"));
+		int CheckStopWord =0;
+		// i must be less equal than the number of the lines in the stopwords text file.
+		for(int i=0; i<StopWordsList.size(); i++){
+			if (new String(text).equals(StopWordsList.get(i))){
+				CheckStopWord = 1;
+			}
+		}
+		// checkstopword=0 means the word is not a stop word.
+		return CheckStopWord;
+}
+	
+	public static void preprocesPhrase(String phrase) throws IOException{
 		// creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution 
 		List<String> additList= new ArrayList<String>();
 		Properties props = new Properties();
@@ -106,38 +122,39 @@ public class Ex {
 		    
 		    System.out.println("Word:("+word+") POS("+pos+") EntityName("+ne+")"+"\n");
 
-			 if( !pos.equalsIgnoreCase("CC")&&
-					 !pos.equalsIgnoreCase("CD")&&
-					 !pos.equalsIgnoreCase("DT")&&
-					 !pos.equalsIgnoreCase("EX")&&
-					 !pos.equalsIgnoreCase("FW")&&
-					 !pos.equalsIgnoreCase("IN")&&
-					 !pos.equalsIgnoreCase("LS")&&
-					 !pos.equalsIgnoreCase("MD")&&
-					 !pos.equalsIgnoreCase("PDT")&&
-					 !pos.equalsIgnoreCase("POS")&&
-					 !pos.equalsIgnoreCase("PRP")&&
-					 !pos.equalsIgnoreCase("PRP$")&&
-					 !pos.equalsIgnoreCase("RP")&&
-					 !pos.equalsIgnoreCase("SYM")&&
-					 !pos.equalsIgnoreCase("UH")&&
-					 !pos.equalsIgnoreCase("TO")&& 
-					 !pos.equalsIgnoreCase("WDT")&& 	 
-					 !pos.equalsIgnoreCase("WP")&&
-					 !pos.equalsIgnoreCase("WP$")&&
-					 !pos.equalsIgnoreCase("WRB")&&
-					 !pos.equalsIgnoreCase("``")&&
-					 !word.contains(",")&&
-					 !word.contains("?")&&
-					 !word.contains("|")){
-				 	additList.add(word);
-				 	if(!stringBuilder.toString().contains(word)){
-				 		word = word.toLowerCase();
-				 		stringBuilder.append(word+" ");
-				 	}
-		    	}
-			 
-			
+		    int CheckStopWord = StopWordsRemoval(word);
+		    if (CheckStopWord == 0) {
+				 if( !pos.equalsIgnoreCase("CC")&&
+						 !pos.equalsIgnoreCase("CD")&&
+						 !pos.equalsIgnoreCase("DT")&&
+						 !pos.equalsIgnoreCase("EX")&&
+						 !pos.equalsIgnoreCase("FW")&&
+						 !pos.equalsIgnoreCase("IN")&&
+						 !pos.equalsIgnoreCase("LS")&&
+						 !pos.equalsIgnoreCase("MD")&&
+						 !pos.equalsIgnoreCase("PDT")&&
+						 !pos.equalsIgnoreCase("POS")&&
+						 !pos.equalsIgnoreCase("PRP")&&
+						 !pos.equalsIgnoreCase("PRP$")&&
+						 !pos.equalsIgnoreCase("RP")&&
+						 !pos.equalsIgnoreCase("SYM")&&
+						 !pos.equalsIgnoreCase("UH")&&
+						 !pos.equalsIgnoreCase("TO")&& 
+						 !pos.equalsIgnoreCase("WDT")&& 	 
+						 !pos.equalsIgnoreCase("WP")&&
+						 !pos.equalsIgnoreCase("WP$")&&
+						 !pos.equalsIgnoreCase("WRB")&&
+						 !pos.equalsIgnoreCase("``")&&
+						 !word.contains(",")&&
+						 !word.contains("?")&&
+						 !word.contains("|")){
+					 	additList.add(word);
+					 	if(!stringBuilder.toString().contains(word)){
+					 		word = word.toLowerCase();
+					 		stringBuilder.append(word+" ");
+					 	}
+			    	}
+		    }
            }//check if the word does not exit in the string
 		
 		  phrasesTokens.add(additList);
