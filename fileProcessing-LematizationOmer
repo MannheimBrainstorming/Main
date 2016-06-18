@@ -68,7 +68,7 @@ public class LemmatizerPreprocessing {
 	private static String intialInputFileString = "C:\\Users\\hp\\Desktop\\Courses\\Team Project\\TeamProjectDemo1\\CSV2\\"+fileName;
 	private static String file1RapidMinerProcessLink = "//Local Repository/processes/TermCount";
 	private static String rapidMinerGeneratedFileLink = "C:\\Users\\hp\\Desktop\\Courses\\Team Project\\TeamProjectDemo1\\TeamDemo1.csv";
-	private static String finalCSVFileSavingLink = "C:\\Users\\hp\\Desktop\\Courses\\Team Project\\TeamProjectDemo1\\Result -CSV1- Omer\\result"+fileName;
+	private static String finalCSVFileSavingLink = "C:\\Users\\hp\\Desktop\\Courses\\Team Project\\TeamProjectDemo1\\result"+fileName;
 	
 	public static StringBuilder stringBuilder = new StringBuilder();
 	public static ArrayList<List<String>> csvData= new ArrayList<List<String>>();//data in columns in csv	
