@@ -120,6 +120,118 @@ public class SynynomPreprocessing {
 		return new String[0];
 	}
 	
+	public static String[] synonyms(String word, String PartofSpeech) throws IOException{
+		  ArrayList<String> myArralyList = new ArrayList<>();
+		  String wnhome = "/usr/local/WordNet-3.0/";
+		  String path = wnhome + File.separator + "dict";
+		  URL url  = new URL ("file", null, path);
+		  IDictionary dic = new Dictionary(url);
+		  dic.open();
+		  
+		  //Default value for idxWord,myWord and mySynSet
+		  IIndexWord idxWord = dic.getIndexWord("book", POS.NOUN);
+		  IWordID myWordID = idxWord.getWordIDs().get(0);
+		  IWord myWord = dic.getWord(myWordID);
+		  ISynset mySynSet = myWord.getSynset();
+		  
+		  //gathering all NOUNs
+		  if(PartofSpeech.equals("NOUN")){
+		   try {
+		    for (int i =0; i<20; i++){
+		      if(dic.getIndexWord(word, POS.NOUN)==null){
+		       break;
+		      }
+		      idxWord = dic.getIndexWord(word, POS.NOUN);
+		      if (idxWord.getWordIDs().get(i)!=null){
+		       mySynSet = dic.getWord(idxWord.getWordIDs().get(i)).getSynset();
+		       for (IWord w : mySynSet.getWords()){
+		        if (myArralyList.contains(w.getLemma())==false){
+		         myArralyList.add(w.getLemma().replaceAll("_", " ").toLowerCase());
+		        }
+		       }
+		      }
+		    }
+		   }catch (IndexOutOfBoundsException e) {
+		       System.err.println("IndexOutOfBoundsException(noun): " + e.getMessage());
+		   }
+		  }
+		  
+		  //gathering all ADJECTIVES
+		  if(PartofSpeech.equals("ADJECTIVE")){
+		   try {
+		    for (int i =0; i<20; i++){
+		      if(dic.getIndexWord(word, POS.ADJECTIVE)==null){
+		       break;
+		      }
+		      idxWord = dic.getIndexWord(word, POS.ADJECTIVE);
+		      if (idxWord.getWordIDs().get(i)!=null){
+		       mySynSet = dic.getWord(idxWord.getWordIDs().get(i)).getSynset();
+		       for (IWord w : mySynSet.getWords()){
+		        if (myArralyList.contains(w.getLemma())==false){
+		         myArralyList.add(w.getLemma().replaceAll("_", " ").toLowerCase());
+		        }
+		       }
+		      }
+		    }
+		   }catch (IndexOutOfBoundsException e) {
+		       System.err.println("IndexOutOfBoundsException(adjective): " + e.getMessage());
+		   }
+		  }
+
+		  //gathering all ADVERBS 
+		  if(PartofSpeech.equals("ADVERB")){ 
+		   try {
+		    for (int i =0; i<20; i++){
+		      if(dic.getIndexWord(word, POS.ADVERB)==null){
+		       break;
+		      }
+		      idxWord = dic.getIndexWord(word, POS.ADVERB);
+		      if (idxWord.getWordIDs().get(i)!=null){
+		       mySynSet = dic.getWord(idxWord.getWordIDs().get(i)).getSynset();
+		       for (IWord w : mySynSet.getWords()){
+		        if (myArralyList.contains(w.getLemma())==false ){
+		         myArralyList.add(w.getLemma().replaceAll("_", " ").toLowerCase());
+		        }
+		       }
+		      }
+		    }
+		   }catch (IndexOutOfBoundsException e) {
+		       System.err.println("IndexOutOfBoundsException:(adverb) " + e.getMessage());
+		   }
+		  }
+		  
+		  //gathering all VERBS
+		  if(PartofSpeech.equals("VERB")){ 
+		   try {
+		    for (int i =0; i<20; i++){
+		      if(dic.getIndexWord(word, POS.VERB)==null){
+		       break;
+		      }
+		      idxWord = dic.getIndexWord(word, POS.VERB);
+		      if (idxWord.getWordIDs().get(i)!=null){
+		       mySynSet = dic.getWord(idxWord.getWordIDs().get(i)).getSynset();
+		       for (IWord w : mySynSet.getWords()){
+		        if (myArralyList.contains(w.getLemma())==false){
+		         myArralyList.add(w.getLemma().replaceAll("_", " ").toLowerCase());
+		        }
+		       }
+		      }
+		    }
+		   }catch (IndexOutOfBoundsException e) {
+		       System.err.println("IndexOutOfBoundsException:(verb) " + e.getMessage());
+		   }
+		  }
+		  dic.close();
+		  String[] finalString = new String[myArralyList.size()];
+		  for (int i=0;i<myArralyList.size();i++){
+		   finalString[i]=myArralyList.get(i);
+		  }
+		  
+		   //new HashSet<String>(Arrays.asList(array)).toArray(new String[0]);
+		  //remvoe Duplicates
+		  return  new HashSet<String>(Arrays.asList(finalString)).toArray(new String[0]);
+	}
+	
 /*
  * Stopwords 
  * */
@@ -200,7 +312,7 @@ public class SynynomPreprocessing {
 					 		stringBuilder.append(word+" ");
 					 		//Get and add synonyms here
 					 		if(Synonyms(word).length > 0 ){
-					 			String[] synonyms = Synonyms(word);
+					 			String[] synonyms = synonyms(word,pos);
 					 			for(String term : synonyms){
 					 				//check for duplicates if exists remove it
 					 				if(!stringBuilder.toString().contains(term.toLowerCase())){
