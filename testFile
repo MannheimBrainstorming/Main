@@ -1,0 +1,9 @@
+import java.util.List;
+import java.io.IOException;
+
+public class DemoMain {
+
+public static void main(String[] args) {
+		System.out.println("My name is Omer");
+	}
+}
