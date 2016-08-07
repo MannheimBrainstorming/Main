@@ -1,0 +1,262 @@
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import com.rapidminer.Process;
+import com.rapidminer.RapidMiner;
+import com.rapidminer.RepositoryProcessLocation;
+import com.rapidminer.operator.IOContainer;
+import com.rapidminer.operator.OperatorException;
+import com.rapidminer.operator.io.CSVExampleSource;
+import com.rapidminer.operator.io.ExcelExampleSource;
+import com.rapidminer.repository.ProcessEntry;
+import com.rapidminer.repository.RepositoryException;
+import com.rapidminer.repository.RepositoryLocation;
+import com.rapidminer.tools.XMLException;
+import com.sun.xml.internal.ws.api.message.saaj.SAAJMessageHeaders;
+
+//inital file Path
+//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
+//final result saving folder 
+//C:\Users\Omer\Documents\TeamProject\Results of Clusters Final Results
+//temperary cluster result
+//C:\Users\Omer\Documents\TeamProject\TemperaryResultsOfCluster
+public class rapidMinderTest {
+	
+	//process Path
+	
+	static String currentRunningProcessPath = "";
+	static String processBasePath = "//Local Repository";
+	static String sixAlgoClusterF5Path = processBasePath+"/6clusterAlgoF5";
+	static String sixAlgoClusterF10Path = processBasePath+"/6clusterAlgoF10";
+	static String sixAlgoClusterF50Path = processBasePath+"/6clusterAlgoF50";
+	
+	//Initial files paths
+	static String baseInitalFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\Sasha";
+	static String sashaFeaturesInitialFilesPath = baseInitalFilesPath+"\\Sasha's Features Results";
+	static String gilagoFeaturesInitialFilesPath = baseInitalFilesPath+"\\Galago Features Results";
+
+	//temperory cluster result
+	static String baseTemperoryResultFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\TemperaryResultsOfCluster";
+
+	//final clustering Result paths
+	static String baseFinalClusteringResultFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\Results of Clusters Final Results";
+	
+	public static void main(String[] args) throws RepositoryException, IOException, XMLException, OperatorException {
+		// TODO Auto-generated method stub
+		System.out.print("Omer");
+		//runRapidMinerProcess();
+		
+		currentRunningProcessPath = sixAlgoClusterF5Path;
+		run6AlgoF5();
+		
+		currentRunningProcessPath = sixAlgoClusterF10Path;
+		run6AlgoF10();
+		
+		currentRunningProcessPath = sixAlgoClusterF10Path;
+		run6AlgoF50();
+	}
+	
+	/**
+	 * Run 6cluster algo F5
+	 * @throws OperatorException 
+	 * @throws XMLException 
+	 * @throws IOException 
+	 * @throws RepositoryException 
+	 * 
+	 */
+	public static void run6AlgoF5() throws RepositoryException, IOException, XMLException, OperatorException{
+		//We will run algorithm on below path only
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
+		/**
+		 * Open folder from initial file path C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
+		 * create resultSubFolder on path C:\Users\Omer\Documents\TeamProject\Results of Clusters Final Results
+		 * Open first sub folder in above path from first path
+		 * Get File name and append to base Path
+		 * Run Process
+		 * generate files on tempPath C:\Users\Omer\Documents\TeamProject\TemperaryResultsOfCluster
+		 * copy file from tempPath to resultSubFolder
+		 * Repeat for second file when all files finish in that folder 
+		 * Repeat for second Folder when all folders finish then go have some party 
+		 * 
+		 */
+		
+		/**
+		 * Run for Sahsa 
+		 * */
+		theMainMagicFunctionTheBlackBrain(sashaFeaturesInitialFilesPath+"\\F5");
+//		//path to F5 feature files
+//		String pathForF5Features = sashaFeaturesInitialFilesPath+"\\F5";
+//		//get name of folders
+//		File file = new File(pathForF5Features);
+//		String[] folderNames = file.list();
+//		//iterate through all sub folders
+//		for(String folderName: folderNames){
+//			//create First Result SubFolder in destination path
+//			(new File(baseFinalClusteringResultFilesPath+"\\"+folderName)).mkdirs();
+//			//Open first sub folder in above path from first path
+//			File subFolder = new File(pathForF5Features+"\\"+folderName);
+//			String[] fileNames = subFolder.list();
+//			
+//			//iterate through all files
+//			for(String fileName : fileNames){
+//				//now make path of file to process
+//				String filePathToProcess = pathForF5Features+"\\"+folderName+"\\"+fileName;
+//				
+//				//run the process by giving the path
+//				runRapidMinerProcess(filePathToProcess);
+//				
+//				//copy result files to destination making sure it has f
+//				String intialAddressOfFolderContainingFiles = baseTemperoryResultFilesPath;
+//				String destinationAddressToCopyTo = baseFinalClusteringResultFilesPath+"\\"+folderName+"\\"+fileName.replace(".csv", ""); 
+//				
+//				//create new Folder with FileName 
+//				(new File(baseFinalClusteringResultFilesPath+"\\"+folderName+"\\"+fileName.replace(".csv", ""))).mkdirs();
+//				copyFilesToDestinationGraveYard(intialAddressOfFolderContainingFiles, destinationAddressToCopyTo);
+//			}
+//		}
+	}
+		
+	/**
+	 * Run 6cluster algo F10
+	 * 
+	 */
+	public static void run6AlgoF10(){
+		//We will run algorithm on below paths only
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F10
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F10
+		/**
+		 * Run for Sahsa
+		 * Run for Gilago 
+		 * */
+		
+	}
+	
+	/**
+	 * Run 6cluster algo F15
+	 * 
+	 */
+	public static void run6AlgoF50(){
+		//We will run algorithm on below paths only
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F50
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F50
+		/**
+		 * Run for Sahsa
+		 * Run for Gilago 
+		 * */
+		
+	}
+	
+	
+	
+	/**
+	 * Rapid Miner Process
+	 * 
+	 */
+	//run Rapid Miner Process
+	@SuppressWarnings("deprecation")
+	public static void runRapidMinerProcess(String filePath) throws RepositoryException, IOException, XMLException, OperatorException{
+    	   try {
+    		   String file1RapidMinerProcessLink = currentRunningProcessPath;//"//Local Repository/6clusterAlgoF5";
+    			
+    		   	// this initializes RapidMiner with your repositories available
+    	    	// you have to call this for all your programs, otherwise your RapidMiner integration will not work correctly
+    	    	RapidMiner.setExecutionMode(RapidMiner.ExecutionMode.COMMAND_LINE);
+    	    	RapidMiner.init();
+
+    	    	// loads the process from the repository (if you do not have one, see alternative below)
+    	    	RepositoryLocation pLoc = new RepositoryLocation(file1RapidMinerProcessLink);
+    	    	ProcessEntry pEntry = (ProcessEntry) pLoc.locateEntry();
+    	    	String processXML = pEntry.retrieveXML();
+    	    	Process myProcess = new Process(processXML);
+    	    	
+    	    	//Not working so we changing xml file programatically
+    	    	//change Operator file PathRead CSV
+    	    	com.rapidminer.operator.Operator op = myProcess.getOperator("Read CSV");
+    	    	op.setParameter("csv_file", filePath);
+    	    	
+    	    	myProcess.updateNotify();
+    	    	myProcess.setProcessLocation(new RepositoryProcessLocation(pLoc));
+    	    	IOContainer ioResult = myProcess.run();
+    			
+    	    } catch (Exception variablenname) {
+    	        System.out.println(variablenname);
+    	    }
+	}
+	
+	/**
+	 * copy files from intial temperory folder to destination folder 
+	 * @throws IOException 
+	 * 
+	 */
+	public static void copyFilesToDestinationGraveYard(String tempFilePaths,String destinationFilePath) throws IOException{
+		
+		//get files at Tem Path
+		File resultFilesAtTemporaryLocation = new File(tempFilePaths);
+		String[] fileNames = resultFilesAtTemporaryLocation.list();
+		
+		for(String fileName: fileNames){
+			Files.move(Paths.get(tempFilePaths+"\\"+fileName),Paths.get(destinationFilePath+"\\"+fileName), StandardCopyOption.REPLACE_EXISTING);
+			//Files.mo
+		}
+	}
+	
+	/**
+	 * Brain Main Logic The Magic that takes files from destination processes them and writes the result to specific folder
+	 * @throws OperatorException 
+	 * @throws XMLException 
+	 * @throws RepositoryException 
+	 * @throws IOException 
+	 * 
+	 */
+	public static void theMainMagicFunctionTheBlackBrain(String path) throws RepositoryException, IOException, XMLException, OperatorException{
+		
+		/**
+		 * Open folder from initial file path C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
+		 * create resultSubFolder on path C:\Users\Omer\Documents\TeamProject\Results of Clusters Final Results
+		 * Open first sub folder in above path from first path
+		 * Get File name and append to base Path
+		 * Run Process
+		 * generate files on tempPath C:\Users\Omer\Documents\TeamProject\TemperaryResultsOfCluster
+		 * copy file from tempPath to resultSubFolder
+		 * Repeat for second file when all files finish in that folder 
+		 * Repeat for second Folder when all folders finish then go have some party 
+		 * 
+		 */
+		
+		//path to F5 feature files
+		String pathForF5Features = path;//sashaFeaturesInitialFilesPath+"\\F5";
+		//get name of folders
+		File file = new File(pathForF5Features);
+		String[] folderNames = file.list();
+		//iterate through all sub folders
+		for(String folderName: folderNames){
+			//create First Result SubFolder in destination path
+			(new File(baseFinalClusteringResultFilesPath+"\\"+folderName)).mkdirs();
+			//Open first sub folder in above path from first path
+			File subFolder = new File(pathForF5Features+"\\"+folderName);
+			String[] fileNames = subFolder.list();
+			
+			//iterate through all files
+			for(String fileName : fileNames){
+				//now make path of file to process
+				String filePathToProcess = pathForF5Features+"\\"+folderName+"\\"+fileName;
+				
+				//run the process by giving the path
+				runRapidMinerProcess(filePathToProcess);
+				
+				//copy result files to destination making sure it has f
+				String intialAddressOfFolderContainingFiles = baseTemperoryResultFilesPath;
+				String destinationAddressToCopyTo = baseFinalClusteringResultFilesPath+"\\"+folderName+"\\"+fileName.replace(".csv", ""); 
+				
+				//create new Folder with FileName 
+				(new File(baseFinalClusteringResultFilesPath+"\\"+folderName+"\\"+fileName.replace(".csv", ""))).mkdirs();
+				copyFilesToDestinationGraveYard(intialAddressOfFolderContainingFiles, destinationAddressToCopyTo);
+			}
+		}
+		
+	}
+
+}
