@@ -32,11 +32,15 @@ public class rapidMinderTest {
 	static String sixAlgoClusterF5Path = processBasePath+"/6clusterAlgoF5";
 	static String sixAlgoClusterF10Path = processBasePath+"/6clusterAlogF10";
 	static String sixAlgoClusterF50Path = processBasePath+"/6clusterAlgoF50";
+	static String sixAlgoClusterTesting = processBasePath+"/6clusteralgowithoutphraseandclusters";
+	
 	
 	//Initial files paths
 	static String baseInitalFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\Sasha";
 	static String sashaFeaturesInitialFilesPath = baseInitalFilesPath+"\\Sasha's Features Results";
 	static String gilagoFeaturesInitialFilesPath = baseInitalFilesPath+"\\Galago Features Results";
+	
+	static String v3GKL5fortesting = baseInitalFilesPath+"\\testing";
 
 	//temperory cluster result
 	static String baseTemperoryResultFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\TemperaryResultsOfCluster";
@@ -56,11 +60,14 @@ public class rapidMinderTest {
 //		currentRunningProcessPath = sixAlgoClusterF5Path;
 //		run6AlgoF5();
 		
-		currentRunningProcessPath = sixAlgoClusterF10Path;
-		run6AlgoF10();
+		//currentRunningProcessPath = sixAlgoClusterF10Path;
+		//run6AlgoF10();
 		
-		currentRunningProcessPath = sixAlgoClusterF50Path;
-		run6AlgoF50();
+		//currentRunningProcessPath = sixAlgoClusterF50Path;
+		//run6AlgoF50();
+    	
+    	currentRunningProcessPath = sixAlgoClusterTesting;
+    	run6AlgoWithoutPhraseAndClusters();
 	}
 	
 	/**
@@ -133,6 +140,25 @@ public class rapidMinderTest {
 		theMainMagicFunctionTheBlackBrain(gilagoFeaturesInitialFilesPath+"\\F50");
 	}
 	
+	/**
+	 * Run 6cluster algo F15
+	 * @throws OperatorException 
+	 * @throws XMLException 
+	 * @throws IOException 
+	 * @throws RepositoryException 
+	 * 
+	 */
+	public static void run6AlgoWithoutPhraseAndClusters() throws RepositoryException, IOException, XMLException, OperatorException{
+		//We will run algorithm on below paths only
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F50
+		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F50
+		/**
+		 * Run for Sahsa
+		 * Run for Gilago 
+		 * */
+		theMainMagicFunctionTheBlackBrain(v3GKL5fortesting);
+		//theMainMagicFunctionTheBlackBrain(gilagoFeaturesInitialFilesPath+"\\F50");
+	}
 	
 	
 	/**
