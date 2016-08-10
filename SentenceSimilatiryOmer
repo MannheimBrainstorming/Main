@@ -1,0 +1,55 @@
+
+public class SentenceSimilairtyOmer {
+	
+	//List of Sentences
+	String[] phrases;
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	/**
+	 * Read Phrases From Files
+	 * */
+	public  String[] phrasesFromFile(String path){
+		String [] sentences = null;
+		
+		return sentences;
+	}
+	
+	
+	/**
+	 * Compute Semantic Similarity of Sentence
+	 * */
+	public double computeSimilarityBetweenWords(String word1,String word2){
+		
+		return 0;
+	}
+	
+	/**
+	 * Compute Semantic Similarity of Sentence
+	 * */
+	public double computeSentenceSemanticsSimilarity(String phrase1, String phrase2){
+		
+		return 0;
+	}
+	
+	/**
+	 * Compute Syntatic Similarity of Sentence
+	 * */
+	public double computeSentenceSyntaticSimilarity(String phrase1, String phrase2){
+		
+		return 0;
+	}
+	
+	/**
+	 * Save Sentence Similarity matrix
+	 * */
+	public void saveSentenceSimilarityMatrix(){
+		
+		
+	}
+
+}
