@@ -1,22 +1,107 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.List;
+
+import org.supercsv.io.CsvListWriter;
+import org.supercsv.io.ICsvListWriter;
+import org.supercsv.prefs.CsvPreference;
+
+
+//https://github.com/super-csv/super-csv/releases
 
 public class SentenceSimilairtyOmer {
 	
-	//List of Sentences
-	String[] phrases;
+	static String baseInitialFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\InitialData";
+	static String baseFinalResultBasePath = "C:\\Users\\Omer\\Documents\\TeamProject\\omerResultSentenceMatrixSimilarityFiles";
+	
+	//for Reading CSV
+	public static ArrayList<List<String>> csvData= new ArrayList<List<String>>();//data in columns in csv
+	
+	
+	
 	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
+		/**
+		 *  open file
+		 *  read all phrases (first column from CSV)
+		 *  Lematize
+		 *  compute semantic similarity between once phrase and rest
+		 *  compute syntatic similairty beween one phrase and rest
+		 *  give each score weightae
+		 *  Compute similarity matrix for each sentence
+		 *  Save similatrity matrix
+		 *  repeat for another file
+		 * */
+		
+		//read All files
+		File file = new File(baseInitialFilesPath);
+		for(String fileIterator : file.list()){
+			
+			ArrayList<String> sentences = phrasesFromFile(baseInitialFilesPath+"\\"+fileIterator);
+			
+			/*
+			 * Compute similarity between all sentences in this file and then save them as similarity Matrix
+			 * */
+			double SimilarityMatrix[][] = null;
+			int i = 0;
+			for(String sentence1 : sentences){
+				int j=0;
+				for(String sentences2 : sentences){
+					SimilarityMatrix[i][j] =computeOmerAlgoSentenceSimilarity(sentence1,sentences2);
+				}
+			}
+			
+			//save similatiry Matrix
+			saveSentenceSimilarityMatrix(SimilarityMatrix, fileIterator);
+		   
+			//for testing only
+			break;
+		}
 
 	}
 	
 	/**
 	 * Read Phrases From Files
 	 * */
-	public  String[] phrasesFromFile(String path){
+	public static  ArrayList<String> phrasesFromFile(String path){
 		String [] sentences = null;
+		String csvFile = path;//"C:\\Users\\Àëåêñàíäðà\\Desktop\\Mannheim\\2s\\teampr\\Clustered Questions\\Topic 1-Q1.csv";
+    	BufferedReader input = null;
+		ArrayList<String> phrasesToSend = new ArrayList<String>();
+		try 
+		{
+		    input =  new BufferedReader(new FileReader(csvFile));
+		    String line = null; boolean firstLine = true;
+		    while (( line = input.readLine()) != null){  
+		    	if(!firstLine){
+		    		String [] data = line.split("\\|");// change it to | instead of ;
+		    			csvData.add(Arrays.asList(data));
+		    		}
+		    else{
+		    	firstLine = false;
+		    }
+		  }
+		}
+		catch (Exception ex){
+		      ex.printStackTrace();
+		}
+		finally {
+		    if(input != null){
+		    	try {input.close();} catch (IOException e) {e.printStackTrace();}
+		    }
+		}
+		for (int i=0;i<csvData.size();i++){
+			phrasesToSend.add((csvData.get(i)).get(0));
+		}
 		
-		return sentences;
+		return phrasesToSend;
 	}
 	
 	
@@ -27,6 +112,15 @@ public class SentenceSimilairtyOmer {
 		
 		return 0;
 	}
+	
+	/**
+	 * Compute Semantic Similarity of Sentence
+	 * */
+	public static double computeOmerAlgoSentenceSimilarity(String phrase1, String phrase2){
+		
+		return 0;
+	}
+	
 	
 	/**
 	 * Compute Semantic Similarity of Sentence
@@ -47,8 +141,27 @@ public class SentenceSimilairtyOmer {
 	/**
 	 * Save Sentence Similarity matrix
 	 * */
-	public void saveSentenceSimilarityMatrix(){
+	public static void saveSentenceSimilarityMatrix(double matrix[][],String fileName){
 		
+		ICsvListWriter csvWriter = null;
+        try {
+            csvWriter = new CsvListWriter(new FileWriter(baseFinalResultBasePath+"\\"+"result"+fileName+".csv"), 
+                CsvPreference.STANDARD_PREFERENCE);
+
+            for (int i = 0; i < matrix.length; i++) {
+                csvWriter.write(matrix[i]);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO handle exception properly
+        } finally {
+            try {
+                csvWriter.close();
+            } catch (IOException e) {
+            }
+        }
+
+    }
 		
 	}
 
