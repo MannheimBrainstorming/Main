@@ -45,22 +45,20 @@ public class SentenceSimilairtyOmer {
 		for(String fileIterator : file.list()){
 			
 			ArrayList<String> sentences = phrasesFromFile(baseInitialFilesPath+"\\"+fileIterator);
-			
-			/*
-			 * Compute similarity between all sentences in this file and then save them as similarity Matrix
-			 * */
-			double SimilarityMatrix[][] = null;
-			int i = 0;
-			for(String sentence1 : sentences){
-				int j=0;
-				for(String sentences2 : sentences){
-					SimilarityMatrix[i][j] =computeOmerAlgoSentenceSimilarity(sentence1,sentences2);
-				}
+			 // Compute similarity between all sentences in this file and then save them as similarity Matrix
+			try {
+				String SimilarityMatrix[][] = new String[sentences.size()] [sentences.size()];
+				for(int i=0; i<sentences.size(); i++){
+					for(int j=0; j<sentences.size(); j++){
+						SimilarityMatrix[i][j] = Double.toString(computeOmerAlgoSentenceSimilarity(sentences.get(i),sentences.get(j)));
+					}
+				}	
+				//save similatiry Matrix
+				saveSentenceSimilarityMatrix(SimilarityMatrix, fileIterator);
+			} catch (IndexOutOfBoundsException e) {
+			    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
 			}
 			
-			//save similatiry Matrix
-			saveSentenceSimilarityMatrix(SimilarityMatrix, fileIterator);
-		   
 			//for testing only
 			break;
 		}
@@ -71,7 +69,6 @@ public class SentenceSimilairtyOmer {
 	 * Read Phrases From Files
 	 * */
 	public static  ArrayList<String> phrasesFromFile(String path){
-		String [] sentences = null;
 		String csvFile = path;//"C:\\Users\\Àëåêñàíäðà\\Desktop\\Mannheim\\2s\\teampr\\Clustered Questions\\Topic 1-Q1.csv";
     	BufferedReader input = null;
 		ArrayList<String> phrasesToSend = new ArrayList<String>();
@@ -94,11 +91,21 @@ public class SentenceSimilairtyOmer {
 		}
 		finally {
 		    if(input != null){
-		    	try {input.close();} catch (IOException e) {e.printStackTrace();}
+		    	try {
+		    		input.close();
+		    		} 
+		    	catch (IOException e) {
+		    		e.printStackTrace();
+		    	}
 		    }
 		}
+		
 		for (int i=0;i<csvData.size();i++){
 			phrasesToSend.add((csvData.get(i)).get(0));
+		}
+		
+		for(int i=0; i>phrasesToSend.size(); i++){
+			System.out.println(phrasesToSend.get(i));
 		}
 		
 		return phrasesToSend;
@@ -141,7 +148,7 @@ public class SentenceSimilairtyOmer {
 	/**
 	 * Save Sentence Similarity matrix
 	 * */
-	public static void saveSentenceSimilarityMatrix(double matrix[][],String fileName){
+	public static void saveSentenceSimilarityMatrix(String matrix[][],String fileName){
 		
 		ICsvListWriter csvWriter = null;
         try {
@@ -163,6 +170,6 @@ public class SentenceSimilairtyOmer {
 
     }
 		
-	}
-
 }
+
+
