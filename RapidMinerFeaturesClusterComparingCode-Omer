@@ -28,19 +28,14 @@ public class rapidMinderTest {
 	//process Path
 	
 	static String currentRunningProcessPath = "";
+	//This is rapid miner base Base for process
 	static String processBasePath = "//Local Repository";
-	static String sixAlgoClusterF5Path = processBasePath+"/6clusterAlgoF5";
-	static String sixAlgoClusterF10Path = processBasePath+"/6clusterAlogF10";
-	static String sixAlgoClusterF50Path = processBasePath+"/6clusterAlgoF50";
-	static String sixAlgoClusterTesting = processBasePath+"/6clusteralgowithoutphraseandclusters";
+	//path for our process	
+	static String sixAlgoClusterFinal = processBasePath+"/6clusteralgowithoutphraseandclusters";
 	
 	
 	//Initial files paths
-	static String baseInitalFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\Sasha";
-	static String sashaFeaturesInitialFilesPath = baseInitalFilesPath+"\\Sasha's Features Results";
-	static String gilagoFeaturesInitialFilesPath = baseInitalFilesPath+"\\Galago Features Results";
-	
-	static String v3GKL5fortesting = baseInitalFilesPath+"\\testing";
+	static String baseInitalFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\Sasha\\data";
 
 	//temperory cluster result
 	static String baseTemperoryResultFilesPath = "C:\\Users\\Omer\\Documents\\TeamProject\\TemperaryResultsOfCluster";
@@ -56,89 +51,11 @@ public class rapidMinderTest {
 		//intialize Rapid Miner
     	RapidMiner.setExecutionMode(RapidMiner.ExecutionMode.COMMAND_LINE);
     	RapidMiner.init();
-		
-//		currentRunningProcessPath = sixAlgoClusterF5Path;
-//		run6AlgoF5();
-		
-		//currentRunningProcessPath = sixAlgoClusterF10Path;
-		//run6AlgoF10();
-		
-		//currentRunningProcessPath = sixAlgoClusterF50Path;
-		//run6AlgoF50();
     	
-    	currentRunningProcessPath = sixAlgoClusterTesting;
+    	currentRunningProcessPath = sixAlgoClusterFinal;
     	run6AlgoWithoutPhraseAndClusters();
 	}
 	
-	/**
-	 * Run 6cluster algo F5
-	 * @throws OperatorException 
-	 * @throws XMLException 
-	 * @throws IOException 
-	 * @throws RepositoryException 
-	 * 
-	 */
-	public static void run6AlgoF5() throws RepositoryException, IOException, XMLException, OperatorException{
-		//We will run algorithm on below path only
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
-		/**
-		 * Open folder from initial file path C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F5
-		 * create resultSubFolder on path C:\Users\Omer\Documents\TeamProject\Results of Clusters Final Results
-		 * Open first sub folder in above path from first path
-		 * Get File name and append to base Path
-		 * Run Process
-		 * generate files on tempPath C:\Users\Omer\Documents\TeamProject\TemperaryResultsOfCluster
-		 * copy file from tempPath to resultSubFolder
-		 * Repeat for second file when all files finish in that folder 
-		 * Repeat for second Folder when all folders finish then go have some party 
-		 * 
-		 */
-		
-		/**
-		 * Run for Sahsa 
-		 * */
-		theMainMagicFunctionTheBlackBrain(sashaFeaturesInitialFilesPath+"\\F5");
-	}
-		
-	/**
-	 * Run 6cluster algo F10
-	 * @throws OperatorException 
-	 * @throws XMLException 
-	 * @throws IOException 
-	 * @throws RepositoryException 
-	 * 
-	 */
-	public static void run6AlgoF10() throws RepositoryException, IOException, XMLException, OperatorException{
-		//We will run algorithm on below paths only
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F10
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F10
-		/**
-		 * Run for Sahsa
-		 * Run for Gilago 
-		 * */
-		theMainMagicFunctionTheBlackBrain(sashaFeaturesInitialFilesPath+"\\F10");
-		theMainMagicFunctionTheBlackBrain(gilagoFeaturesInitialFilesPath+"\\F10");
-	}
-	
-	/**
-	 * Run 6cluster algo F15
-	 * @throws OperatorException 
-	 * @throws XMLException 
-	 * @throws IOException 
-	 * @throws RepositoryException 
-	 * 
-	 */
-	public static void run6AlgoF50() throws RepositoryException, IOException, XMLException, OperatorException{
-		//We will run algorithm on below paths only
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F50
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F50
-		/**
-		 * Run for Sahsa
-		 * Run for Gilago 
-		 * */
-		theMainMagicFunctionTheBlackBrain(sashaFeaturesInitialFilesPath+"\\F50");
-		theMainMagicFunctionTheBlackBrain(gilagoFeaturesInitialFilesPath+"\\F50");
-	}
 	
 	/**
 	 * Run 6cluster algo F15
@@ -149,15 +66,10 @@ public class rapidMinderTest {
 	 * 
 	 */
 	public static void run6AlgoWithoutPhraseAndClusters() throws RepositoryException, IOException, XMLException, OperatorException{
-		//We will run algorithm on below paths only
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Sasha's Features Results\F50
-		//C:\Users\Omer\Documents\TeamProject\Sasha\Galago Features Results\F50
 		/**
-		 * Run for Sahsa
-		 * Run for Gilago 
+		 * Run for all files
 		 * */
-		theMainMagicFunctionTheBlackBrain(v3GKL5fortesting);
-		//theMainMagicFunctionTheBlackBrain(gilagoFeaturesInitialFilesPath+"\\F50");
+		theMainMagicFunctionTheBlackBrain(baseInitalFilesPath);
 	}
 	
 	
@@ -170,11 +82,6 @@ public class rapidMinderTest {
 	public static void runRapidMinerProcess(String filePath) throws RepositoryException, IOException, XMLException, OperatorException{
     	   try {
     		   String file1RapidMinerProcessLink = currentRunningProcessPath;//"//Local Repository/6clusterAlgoF5";
-    			
-    		   	// this initializes RapidMiner with your repositories available
-    	    	// you have to call this for all your programs, otherwise your RapidMiner integration will not work correctly
-//    	    	RapidMiner.setExecutionMode(RapidMiner.ExecutionMode.COMMAND_LINE);
-//    	    	RapidMiner.init();
 
     	    	// loads the process from the repository (if you do not have one, see alternative below)
     	    	RepositoryLocation pLoc = new RepositoryLocation(file1RapidMinerProcessLink);
