@@ -115,7 +115,7 @@ public class SentenceSimilairtyOmer {
 	/**
 	 * Compute Semantic Similarity of Sentence
 	 * */
-	public double computeSimilarityBetweenWords(String word1,String word2){
+	public static double computeSimilarityBetweenWords(String word1,String word2){
 		
 		return 0;
 	}
@@ -124,26 +124,127 @@ public class SentenceSimilairtyOmer {
 	 * Compute Semantic Similarity of Sentence
 	 * */
 	public static double computeOmerAlgoSentenceSimilarity(String phrase1, String phrase2){
-		
-		return 0;
+		return (0.5*computeSentenceSemanticsSimilarity(phrase1,phrase2)) + (0.5*computeSentenceSyntaticSimilarity(phrase1,phrase2));
 	}
 	
 	
 	/**
 	 * Compute Semantic Similarity of Sentence
 	 * */
-	public double computeSentenceSemanticsSimilarity(String phrase1, String phrase2){
+	@SuppressWarnings("null")
+	public static double computeSentenceSemanticsSimilarity(String phrase1, String phrase2){
+		/**
+		 * Lematize
+		 * Compute Union
+		 * 
+		 * */
 		
-		return 0;
+		String _phrase1 = phrase1;
+		String _phrase2 = phrase2;
+		
+		String _phrase1Array[] = _phrase1.split(" ");
+		String _phrase2Array[] = _phrase2.split(" ");
+		
+		String combinedString = new String(_phrase1+" "+_phrase2);
+		
+		String[] wordsArrayList = combinedString.split(" ");
+		
+		//Set of words
+		//lexical semantic vector
+		Set<String> wordsSet = new HashSet<String>(Arrays.asList(wordsArrayList));
+		
+		/**
+		 * Algorithm
+		 * For each word that exist in the in the wordset if it exist in the sentence(T1 or T2) we set
+		 * it to 1 or else we set it to similarity(we calculate similarity value using word2vec,wordnet or any other source) value
+		 * Remember the vector would be calculated based on the big vector 
+		 * */
+		
+		//initialize it with size of semantic Vector size
+		double sentenceVector1[] = new double[wordsSet.size()];
+		double sentenceVector2[] = new double[wordsSet.size()];
+		
+		
+		//sentence vector for phrase1
+		int i=0;
+		for(String wordToCompare : wordsSet){
+			//check if the word exist in the _pharse1 Array
+			List<String> phraseArrayList = new ArrayList<String>(Arrays.asList(_phrase1Array));
+			if(phraseArrayList.contains(wordToCompare)){
+				//set value to 1 as word is exactly contained in the list
+				sentenceVector1[i] = 1;
+			}else{
+				//set the word to maximum similarity
+				double maximumSimilarity = 0;
+				for(String wordInPhraseList : phraseArrayList){
+					if(computeSimilarityBetweenWords(wordToCompare,wordInPhraseList) > maximumSimilarity){
+						maximumSimilarity = computeSimilarityBetweenWords(wordToCompare,wordInPhraseList); 
+					}
+				}
+				//assign the sentence vector maximum similarity score
+				sentenceVector1[i] = maximumSimilarity;
+			}
+			
+			//check if the word exist in the _pharse2 Array
+			List<String> phraseArrayList2 = new ArrayList<String>(Arrays.asList(_phrase2Array));
+			if(phraseArrayList2.contains(wordToCompare)){
+				//set value to 1 as word is exactly contained in the list
+				sentenceVector2[i] = 1;
+			}else{
+				//set the word to maximum similarity
+				double maximumSimilarity = 0;
+				for(String wordInPhraseList : phraseArrayList2){
+					if(computeSimilarityBetweenWords(wordToCompare,wordInPhraseList) > maximumSimilarity){
+						maximumSimilarity = computeSimilarityBetweenWords(wordToCompare,wordInPhraseList); 
+					}
+				}
+				//assign the sentence vector maximum similarity score
+				sentenceVector2[i] = maximumSimilarity;
+			}
+			
+		}
+		
+		//compute cosine distance between two vector
+		return cosineSimilarity(sentenceVector1, sentenceVector2);
 	}
+	
+	
+	/**
+	 * Compute Cosine Similarity of Sentence
+	 * http://computergodzilla.blogspot.de/2013/07/how-to-calculate-tf-idf-of-document.html
+	 * */
+	 public static double cosineSimilarity(double[] matrix1, double[] matrix2) {
+	        double dotProduct = 0.0;
+	        double magnitude1 = 0.0;
+	        double magnitude2 = 0.0;
+	        double cosineSimilarity = 0.0;
+
+	        for (int i = 0; i < matrix1.length; i++) //docVector1 and docVector2 must be of same length
+	        {
+	            dotProduct += matrix1[i] * matrix2[i];  //a.b
+	            magnitude1 += Math.pow(matrix1[i], 2);  //(a^2)
+	            magnitude2 += Math.pow(matrix2[i], 2); //(b^2)
+	        }
+
+	        magnitude1 = Math.sqrt(magnitude1);//sqrt(a^2)
+	        magnitude2 = Math.sqrt(magnitude2);//sqrt(b^2)
+
+	        if (magnitude1 != 0.0 | magnitude2 != 0.0) {
+	            cosineSimilarity = dotProduct / (magnitude1 * magnitude2);
+	        } else {
+	            return 0.0;
+	        }
+	        return cosineSimilarity;
+	  }
 	
 	/**
 	 * Compute Syntatic Similarity of Sentence
 	 * */
-	public double computeSentenceSyntaticSimilarity(String phrase1, String phrase2){
+	public static double computeSentenceSyntaticSimilarity(String phrase1, String phrase2){
 		
 		return 0;
 	}
+	
 	
 	/**
 	 * Save Sentence Similarity matrix
