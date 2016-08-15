@@ -4,11 +4,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 //https://github.com/super-csv/super-csv/releases
@@ -202,6 +203,7 @@ public class SentenceSimilairtyOmer {
 				sentenceVector2[i] = maximumSimilarity;
 			}
 			
+			i++;
 		}
 		
 		//compute cosine distance between two vector
@@ -238,11 +240,117 @@ public class SentenceSimilairtyOmer {
 	  }
 	
 	/**
-	 * Compute Syntatic Similarity of Sentence
+	 * Compute Structural Similarity of Sentence
 	 * */
 	public static double computeSentenceSyntaticSimilarity(String phrase1, String phrase2){
 		
-		return 0;
+		/**
+		 * Word Order Similarity
+		 * Make Union of both String Vectors call it wordSet
+		 * for each word in wordset
+		 * Check if the word of s1 vector exist in wordset
+		 * if the word exist in the word set assign it that index
+		 * if not compute similarity of the that word with all words on s1
+		 * assign it index if similarity is greater than 0.2 than assign that index else assign 0
+		 *  Note the index starts from 1 not 0
+		 * 	1-|((s1-s2)/(s1+s2))| Order Similarity formula  
+		 **/
+
+		String _phrase1Array[] = phrase1.split(" ");
+		String _phrase2Array[] = phrase2.split(" ");
+		
+		String combinedString = new String(phrase1+" "+phrase2);
+		
+		String[] wordsArrayList = combinedString.split(" ");
+		
+		//Set of words
+		//lexical semantic vector
+		Set<String> wordsSet = new HashSet<String>(Arrays.asList(wordsArrayList));
+		
+		//vectors for order calculations
+		double[] phrase1Vector = new double[wordsSet.size()];
+		double[] phrase2Vector = new double[wordsSet.size()];
+		
+		//creat List out of String[]
+		List<String> phrase1List =  arraryFromStringArray(_phrase1Array);
+		List<String> phrase2List =  arraryFromStringArray(_phrase2Array);
+		
+		
+		int i=1;
+		//iterate through wordsSet
+		for(String word : wordsSet){
+			
+			//set both vector values to 0 intially because we dont know if we are going to find some match or not
+			phrase1Vector[i] = 0;
+			phrase2Vector[i] = 0;
+			
+			//check if the word is present in s1
+			if((arraryFromStringArray(_phrase1Array)).contains(word)){
+				//get the index of the word in the main Array
+				phrase1Vector[i] = (new ArrayList<>(wordsSet)).indexOf(word);
+			}else{
+				//go through the vector 1 and check if matches the similarity with any other word in wordset if yes add it to word order vector
+				double maximumSimilarity = 0.2;
+				for(String wordInPhraseList : phrase1List){
+					if(computeSimilarityBetweenWords(word,wordInPhraseList) > maximumSimilarity){
+						//we calculate the maximum similarity
+						maximumSimilarity = computeSimilarityBetweenWords(word,wordInPhraseList);
+						//we set the index of the vector to the maximum word
+						phrase1Vector[i] = (new ArrayList<>(wordsSet)).indexOf(word);
+					}
+				}	
+				
+			}
+			
+			//check if the word is present in s1
+			if((arraryFromStringArray(_phrase2Array)).contains(word)){
+				//get the index of the word in the main Array
+				phrase2Vector[i] = (new ArrayList<>(wordsSet)).indexOf(word);
+			}else{
+				//go through the vector 1 and check if matches the similarity with any other word in wordset if yes add it to word order vector
+				double maximumSimilarity = 0.2;
+				for(String wordInPhraseList : phrase2List){
+					if(computeSimilarityBetweenWords(word,wordInPhraseList) > maximumSimilarity){
+						//we calculate the maximum similarity
+						maximumSimilarity = computeSimilarityBetweenWords(word,wordInPhraseList);
+						//we set the index of the vector to the maximum word
+						phrase2Vector[i] = (new ArrayList<>(wordsSet)).indexOf(word);
+					}
+				}	
+				
+			}
+			
+			
+			//iterate to next value
+			i++;
+		}
+		
+		//calculations 1-|((s1-s2)|/|(s1+s2)|)
+		
+		double vectorSum[] = new double[wordsSet.size()];
+	    double vectorDifference[] = new double[wordsSet.size()];
+		
+		//calculate sum and difference
+		for(int j=0; j<wordsSet.size(); j++){
+			vectorSum [j] = phrase1Vector[j] + phrase2Vector[j];
+			vectorDifference [j] = phrase1Vector[j] - phrase2Vector[j];
+		}
+		
+		double modSum = 0;
+		double modSubtract =0;
+		
+		for(int j=0; j<wordsSet.size(); j++){
+			modSum =  Math.pow(vectorSum[j], 2);
+			modSubtract = Math.pow(vectorDifference[j], 2);
+		}
+		
+		for(int j=0; j<wordsSet.size(); j++){
+			modSum = (int) Math.pow(vectorSum[j], 2);
+			modSubtract = Math.pow(vectorDifference[j], 2);
+		}
+		
+		double resultToReturn = 1-(modSubtract/modSum);
+		return resultToReturn;
 	}
 	
 	
@@ -270,6 +378,14 @@ public class SentenceSimilairtyOmer {
         }
 
     }
+	
+	/**
+	 * Returns Java Array from normal String array
+	 * */
+	private static List<String> arraryFromStringArray(String[] words){
+		List<String> wordList = Arrays.asList(words);
+		return wordList;
+	}
 		
 }
 
